@@ -17,18 +17,14 @@ def hello_world():
 @app.route('/upload', methods=['POST'])
 def deepbreak():
     imageb64 = (request.get_json())['image']
-    image = base64.b64decode(imageb64)
-    im = Image.open(io.BytesIO(image))
-    new_image = process_image(im)
-    converted_string = base64.b64encode(new_image.read()) 
-    returnValue = jsonify(converted_string)
-    getDeepBreak(returnValue)
-
-
-
-@app.route('/upload')
-def getDeepBreak(json):
-    return json
+    prefix = 'data:image/webp;base64,'
+    cut = imageb64[len(prefix):]
+    im = Image.open(io.BytesIO(base64.b64decode(cut)))
+    np_image = np.array(im)
+    new_image = process_image(np_image)
+    converted_string = base64.b64encode(new_image) 
+    returnValue = [{'image': f"{converted_string}"}]
+    return jsonify(data=returnValue, status=200, mimetype='application/json')
 
 def invert_pixel_color(pixel):
     # Assuming the pixel is in RGB format
