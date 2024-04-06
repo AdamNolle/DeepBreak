@@ -47,7 +47,7 @@ function App() {
   const sendImageToBackend = async (base64Image) => {
     console.log('sendImageToBackend call');
     try {
-      const response = await fetch('http://localhost:5000/process-image', {
+      const response = await fetch('http://localhost:5000/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
