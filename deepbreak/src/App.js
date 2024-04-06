@@ -13,9 +13,11 @@ function App() {
   const [img, setImg] = useState("");
 
   const handleFileUpload = async (event) => {
-    const imageURL = event[0].fileUrl;
-    if( !imageURL ) {return;}
+    //ERROR CHECK
+    if( event.length == 0 ) {return;}
 
+    const imageURL = event[0].fileUrl;
+    
     console.log(imageURL);
     convertImageToBase64(imageURL)
     .then(base64String => console.log(base64String))
