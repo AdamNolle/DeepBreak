@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 
-// const axios = require('axios').default;
-
 const options = {
   apiKey: "public_12a1yuP2GtyBHjybdh9CyYkHFP6k", // This is your API key.
   maxFileCount: 1
@@ -23,19 +21,12 @@ function App() {
     .then(base64String => console.log(base64String))
     .then(base64String => sendImageToBackend(base64String))
 
-    // const base64Image = await convertToBase64( imageURL );
-    // sendImageToBackend( base64Image );
-
   }
 
   async function convertImageToBase64(url) {
     try {
-      // const response = await axios.get(url, {
-      //   responseType: 'arraybuffer' // Important for dealing with binary content
-      // });
       const response = await fetch(url);
       const arrayBuffer = await response.arrayBuffer();
-      // const base64 = Buffer.from(response.data, 'binary').toString('base64');
       const base64 = Buffer.from(arrayBuffer).toString('base64');
       return `data:${response.headers['content-type']};base64,${base64}`;
     } catch (error) {
@@ -57,7 +48,7 @@ function App() {
 
       if (response.ok) {
         const data = await response.json();
-        setImg(data.img); // Assuming your backend returns the URL of the processed image
+        setImg(data.img); 
       } else {
         console.error('Backend processing failed');
       }
@@ -75,11 +66,9 @@ function App() {
       </header>
       <div className='App-body'>
         <UploadButton options={options}
-                      // onComplete={files => alert(files.map(x => x.fileUrl).join("\n"))}>
                       onComplete={e => {
                         console.log(e);
                         handleFileUpload(e);
-                        // alert(e[0].fileUrl);
                       }}>
           {({onClick}) =>
             <button onClick={onClick}>
