@@ -4,8 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Ubuntu Steps for Flask
 (cd inside /api/ first)
+
 python3 -m venv venv 
+
 source venv/bin/activate
+
 (now inside you should be inside venv)
 
 flask run
