@@ -1,3 +1,7 @@
+html {
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
@@ -19,12 +23,23 @@
 
 .App-body {
   background-color: #282c34;
-  min-height: 80vh;
+  min-height: 18vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-image {
+  background-color: #282c34;
+  min-height: 55vh;
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: center;
+  /* font-size: calc(10px + 2vmin); */
   color: white;
 }
 
