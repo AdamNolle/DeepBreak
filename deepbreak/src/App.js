@@ -20,7 +20,7 @@ function App() {
     
     console.log(imageURL);
     convertImageToBase64(imageURL)
-    .then(base64String => console.log(base64String))
+    // .then(base64String => console.log(base64String))
     .then(base64String => sendImageToBackend(base64String))
 
   }
@@ -40,17 +40,21 @@ function App() {
   const sendImageToBackend = async (base64Image) => {
     console.log('sendImageToBackend call');
     try {
+      console.log('DEEZ')
+      console.log(base64Image);
+      console.log(JSON.stringify(base64Image));
       const response = await fetch('http://localhost:5000/upload', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ image: base64Image }),
+        body: JSON.stringify({ "image": base64Image }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setImg(data.img); 
+        setImg(data.img);
+        console.log('success'); 
       } else {
         console.error('Backend processing failed');
       }
