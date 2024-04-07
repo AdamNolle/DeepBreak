@@ -132,14 +132,16 @@ function App() {
             </button>
           }
         </UploadButton>
-        {/* <div className='spinner'></div> */}
+      </div>
+      <div className='App-image'>
+
+      
         {imageSrc && isLoading ? (<div className='spinner'></div>)
         :
         (imageSrc ? <img src={imageSrc} alt="TEST" onClick={() => downloadBlob(imgDownload)}/> : <div></div>)}
         {/* <BlobImageComponen)t imageBlob={base64img} /> */}
-        {/* <img src="https://i.pinimg.com/originals/e0/50/29/e05029add9bfd9db2db88264b375257a.jpg"/> */}
-        {/* <img src="https://upcdn.io/12a1yuP/raw/uploads/2024/04/07/4khb1PKmGi-3150_Exam2_3b.JPG"/> */}
       </div>
+      
     </div>
   );
 }
