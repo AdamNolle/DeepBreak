@@ -63,10 +63,10 @@ def process_image(image, faces):
                 # Randomly decide whether to invert pixel or not
                 if random.random() < 0.0005:  
                     processed_image[i, j] = invert_pixel_color(processed_image[i, j])
-        face_region = processed_image[y:y+h, x:x+w]
         
         #Was messing with blurring images. Makes the generated images work better so stopped this. 
         # Generate uniform noise with reduced intensity
+        # face_region = processed_image[y:y+h, x:x+w]
         # noise = np.random.randint(-10, 10, size=face_region.shape, dtype=np.int8)  # Uniform noise
         # noisy_face_region = np.clip(face_region + noise, 0, 255)  # Ensure pixel values are within [0, 255] range
         
