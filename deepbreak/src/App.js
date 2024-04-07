@@ -64,8 +64,7 @@ function App() {
         console.log("RETURNED")
         setIsLoading(false);
         const data = await response.json();
-        console.log(data);
-        // setImg(data.data[0].image); 
+
         const base64image = data.data[0].image;
         // console.log(data.data[0].image );
         // const imageBlob = base64ToBlob(data.data[0].image);
@@ -74,6 +73,8 @@ function App() {
         setImgDownload(imageBlob);
         // downloadBlob(imageBlob);
         
+        setImg(data.img);
+
       } else {
         console.error('Backend processing failed');
       }

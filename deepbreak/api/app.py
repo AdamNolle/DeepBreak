@@ -22,6 +22,7 @@ def hello_world():
 
 @app.route('/upload', methods=['POST'])
 def deepbreak():
+    print(request.json())
     imageb64 = (request.get_json())['image']
     imageb64 = imageb64.split(',')
     imageb64 = imageb64[1]
