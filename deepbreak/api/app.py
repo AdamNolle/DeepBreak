@@ -16,7 +16,9 @@ def hello_world():
 
 @app.route('/upload', methods=['POST'])
 def deepbreak():
+    print(request.json())
     imageb64 = (request.get_json())['image']
+    # print)
     prefix = 'data:image/webp;base64,'
     cut = imageb64[len(prefix):]
     im = Image.open(io.BytesIO(base64.b64decode(cut)))
