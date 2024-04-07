@@ -89,9 +89,9 @@ def process_image(image, faces):
 
     for (x, y, w, h) in faces:
         for i in range(y, y + h):
-            for j in range(x, x + w, 10):  # Modify to invert every pixel if desired
+            for j in range(x, x + w):  # Modify to invert every pixel if desired
                 # Randomly decide whether to invert pixel or not
-                if random.random() < 0.05:
+                if random.random() < 0.005:
                     processed_image[i, j] = invert_pixel_color(processed_image[i, j])
 
     return processed_image

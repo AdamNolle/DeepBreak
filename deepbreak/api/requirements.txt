@@ -3,3 +3,4 @@ flask
 pillow
 opencv-python
 matplotlib
+flask_core
