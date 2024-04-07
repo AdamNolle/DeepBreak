@@ -4,7 +4,10 @@ import io
 from PIL import Image
 import numpy as np
 import base64
-
+import cv2
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib import pyplot as plt
 
 app = Flask(__name__)
 
@@ -21,6 +24,7 @@ def deepbreak():
     cut = imageb64[len(prefix):]
     im = Image.open(io.BytesIO(base64.b64decode(cut)))
     np_image = np.array(im)
+    identifyFaces(np_image)
     new_image = process_image(np_image)
     converted_string = base64.b64encode(new_image) 
     returnValue = [{'image': f"{converted_string}"}]
@@ -29,6 +33,25 @@ def deepbreak():
 def invert_pixel_color(pixel):
     # Assuming the pixel is in RGB format
     return 255 - pixel
+
+def identifyFaces(image):
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    face_classifier = cv2.CascadeClassifier(
+    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+    )
+    face = face_classifier.detectMultiScale(
+    gray_image, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40)
+    )
+    for (x, y, w, h) in face:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 4)
+    img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+
+    img = Image.fromarray(img_rgb, 'RGB')
+    img.save('my.png')
+    img.show()
+
+
 
 def process_image(image):
     """
