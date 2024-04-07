@@ -3,6 +3,7 @@ import { UploadButton } from "@bytescale/upload-widget-react";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import BlobImageComponent from './NewImageBlob';
 
 const options = {
   apiKey: "public_12a1yuP2GtyBHjybdh9CyYkHFP6k", // This is your API key.
@@ -11,6 +12,8 @@ const options = {
 
 function App() {
   const [img, setImg] = useState("");
+  const [base64img, setBase64Img] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
 
   const handleFileUpload = async (event) => {
     //ERROR CHECK
@@ -48,8 +51,16 @@ function App() {
       });
 
       if (response.ok) {
+        console.log("RETURNED")
         const data = await response.json();
-        setImg(data.img); 
+        console.log(data);
+        // setImg(data.data[0].image); 
+        const base64image = data.data[0].image;
+        // console.log(data.data[0].image );
+        // const imageBlob = base64ToBlob(data.data[0].image);
+        const imageBlob = base64ToBlob(base64image);
+        downloadBlob(imageBlob);
+        
       } else {
         console.error('Backend processing failed');
       }
@@ -57,6 +68,41 @@ function App() {
       console.error('Error:', error);
     }
   };
+
+  function base64ToBlob(base64, mimeType = 'image/jpeg') {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+  
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: mimeType })
+    setImageSrc(URL.createObjectURL(blob));
+    console.log(blob);
+    // return new Blob(byteArrays, { type: mimeType });
+    return blob;
+  }
+
+  function downloadBlob(blob, filename = 'download.jpg') {
+    console.log(blob)
+    if( !blob ){
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a); // Append anchor to body.
+    a.click();
+    document.body.removeChild(a); // Remove anchor from body
+    URL.revokeObjectURL(url); // Clean up URL object
+  }
 
   return (
     <div className="App">
@@ -77,7 +123,10 @@ function App() {
             </button>
           }
         </UploadButton>
-        <img src="https://i.pinimg.com/originals/e0/50/29/e05029add9bfd9db2db88264b375257a.jpg"/>
+        {imageSrc && <img src={imageSrc} alt="TEST" />}
+        {/* <BlobImageComponent imageBlob={base64img} /> */}
+        {/* <img src="https://i.pinimg.com/originals/e0/50/29/e05029add9bfd9db2db88264b375257a.jpg"/> */}
+        {/* <img src="https://upcdn.io/12a1yuP/raw/uploads/2024/04/07/4khb1PKmGi-3150_Exam2_3b.JPG"/> */}
       </div>
     </div>
   );

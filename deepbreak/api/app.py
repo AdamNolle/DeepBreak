@@ -37,7 +37,7 @@ def deepbreak():
     imageb64 = (request.get_json())['image']
     imageb64 = imageb64.split(',')
     imageb64 = imageb64[1]
-    print(len(imageb64))
+    # print(len(imageb64))
     im = Image.open(io.BytesIO(base64.b64decode(imageb64)))
     np_image = np.array(im)
     global detected_faces
