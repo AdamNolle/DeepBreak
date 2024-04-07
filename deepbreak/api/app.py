@@ -1,3 +1,4 @@
+import random
 from flask import Flask, request, jsonify  
 import PIL
 import io
@@ -40,7 +41,6 @@ def deepbreak():
     # print(len(imageb64))
     im = Image.open(io.BytesIO(base64.b64decode(imageb64)))
     np_image = np.array(im)
-    global detected_faces
     detected_faces = identifyFaces(np_image)
     new_image = process_image(np_image, detected_faces)
     new_image_pil = Image.fromarray(new_image)
@@ -83,15 +83,17 @@ def identifyFaces(image):
 
 def process_image(image, faces):
     """
-    Inverts the color of pixels inside detected face regions.
+    Inverts the color of pixels inside detected face regions with a 5% chance.
     """
     processed_image = np.copy(image)
-    
+
     for (x, y, w, h) in faces:
         for i in range(y, y + h):
             for j in range(x, x + w, 10):  # Modify to invert every pixel if desired
-                processed_image[i, j] = invert_pixel_color(processed_image[i, j])
-    
+                # Randomly decide whether to invert pixel or not
+                if random.random() < 0.05:
+                    processed_image[i, j] = invert_pixel_color(processed_image[i, j])
+
     return processed_image
 
 # def process_image(image):
