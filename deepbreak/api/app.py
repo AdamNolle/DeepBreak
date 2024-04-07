@@ -91,9 +91,19 @@ def process_image(image, faces):
         for i in range(y, y + h):
             for j in range(x, x + w):  # Modify to invert every pixel if desired
                 # Randomly decide whether to invert pixel or not
-                if random.random() < 0.0005:
+                if random.random() < 0.0005:  
                     processed_image[i, j] = invert_pixel_color(processed_image[i, j])
-
+        face_region = processed_image[y:y+h, x:x+w]
+        
+        # Generate uniform noise with reduced intensity
+        noise = np.random.randint(-10, 10, size=face_region.shape, dtype=np.int8)  # Uniform noise
+        noisy_face_region = np.clip(face_region + noise, 0, 255)  # Ensure pixel values are within [0, 255] range
+        
+        # Apply blurring to reduce noise
+        blurred_face_region = cv2.GaussianBlur(noisy_face_region, (5, 5), 0)  # Gaussian blur with a 5x5 kernel size
+        
+        # Update the processed image with the blurred face region
+        processed_image[y:y+h, x:x+w] = blurred_face_region
     return processed_image
 
 # def process_image(image):
