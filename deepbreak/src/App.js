@@ -14,10 +14,12 @@ function App() {
   const [img, setImg] = useState("");
   const [base64img, setBase64Img] = useState("");
   const [imageSrc, setImageSrc] = useState(null);
+  const [imgDownload, setImgDownload] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
 
   const handleFileUpload = async (event) => {
     //ERROR CHECK
-    if( event.length == 0 ) {return;}
+    if( event.length === 0 ) {return;}
 
     const imageURL = event[0].fileUrl;
     
@@ -42,6 +44,7 @@ function App() {
   const sendImageToBackend = async (base64Image) => {
     console.log('sendImageToBackend call');
     try {
+      setIsLoading(true);
       const response = await fetch('http://localhost:5000/upload', {
         method: 'POST',
         headers: {
@@ -52,6 +55,7 @@ function App() {
 
       if (response.ok) {
         console.log("RETURNED")
+        setIsLoading(false);
         const data = await response.json();
         console.log(data);
         // setImg(data.data[0].image); 
@@ -59,7 +63,9 @@ function App() {
         // console.log(data.data[0].image );
         // const imageBlob = base64ToBlob(data.data[0].image);
         const imageBlob = base64ToBlob(base64image);
-        downloadBlob(imageBlob);
+
+        setImgDownload(imageBlob);
+        // downloadBlob(imageBlob);
         
       } else {
         console.error('Backend processing failed');
@@ -107,11 +113,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
+        <h>
           DEEPBREAK
-        </p>
+        </h>
       </header>
       <div className='App-body'>
+        <p>
+          Make sure that the image is not too low of a resolution!
+        </p>
         <UploadButton options={options}
                       onComplete={e => {
                         console.log(e);
@@ -123,8 +132,11 @@ function App() {
             </button>
           }
         </UploadButton>
-        {imageSrc && <img src={imageSrc} alt="TEST" />}
-        {/* <BlobImageComponent imageBlob={base64img} /> */}
+        {/* <div className='spinner'></div> */}
+        {imageSrc && isLoading ? (<div className='spinner'></div>)
+        :
+        (imageSrc ? <img src={imageSrc} alt="TEST" onClick={() => downloadBlob(imgDownload)}/> : <div></div>)}
+        {/* <BlobImageComponen)t imageBlob={base64img} /> */}
         {/* <img src="https://i.pinimg.com/originals/e0/50/29/e05029add9bfd9db2db88264b375257a.jpg"/> */}
         {/* <img src="https://upcdn.io/12a1yuP/raw/uploads/2024/04/07/4khb1PKmGi-3150_Exam2_3b.JPG"/> */}
       </div>

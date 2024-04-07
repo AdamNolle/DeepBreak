@@ -32,6 +32,19 @@ img {
   max-width: 20vw;
 }
 
+img:hover {
+  cursor: pointer;
+}
+
+p {
+  font-size: 0.6em;
+  font-style: italic;
+}
+
+h {
+  font-size: 1.5em;
+}
+
 /* UploadButton {
   margin: 1vh 1vw;
 } */
@@ -59,5 +72,23 @@ button {
   -webkit-user-select: none;
   touch-action: manipulation;
 
-  margin: 5vh 1vw;
+  margin: 2vh 1vw 5vh 1vw;
+}
+
+.spinner {
+  border: 4px solid rgba(253, 253, 253, 0.968) !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-left-color: #09f !important;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
