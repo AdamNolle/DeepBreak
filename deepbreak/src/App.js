@@ -20,7 +20,6 @@ function App() {
     
     console.log(imageURL);
     convertImageToBase64(imageURL)
-    .then(base64String => console.log(base64String))
     .then(base64String => sendImageToBackend(base64String))
 
   }
@@ -45,7 +44,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ image: base64Image }),
+        body: JSON.stringify({ "image": base64Image }),
       });
 
       if (response.ok) {
