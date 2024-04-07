@@ -22,6 +22,13 @@ function App() {
     if( event.length === 0 ) {return;}
 
     const imageURL = event[0].fileUrl;
+
+    const file_ext_array = imageURL.split('.');
+    const file_ext = file_ext_array[file_ext_array.length - 1];
+    if (file_ext !== "jpg" && file_ext !== "jfif" && file_ext !== "png" && file_ext !== "webp" ) {
+      alert(file_ext + " is currently not supported!");
+      return;
+    }
     
     console.log(imageURL);
     convertImageToBase64(imageURL)
@@ -135,11 +142,9 @@ function App() {
       </div>
       <div className='App-image'>
 
-      
         {imageSrc && isLoading ? (<div className='spinner'></div>)
         :
         (imageSrc ? <img src={imageSrc} alt="TEST" onClick={() => downloadBlob(imgDownload)}/> : <div></div>)}
-        {/* <BlobImageComponen)t imageBlob={base64img} /> */}
       </div>
       
     </div>
