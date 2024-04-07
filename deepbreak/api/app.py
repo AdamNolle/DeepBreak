@@ -9,8 +9,10 @@ import cv2
 import matplotlib
 matplotlib.use('TkAgg')
 from matplotlib import pyplot as plt
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 processed_image = [{}]
 
@@ -34,9 +36,10 @@ def hello_world():
 @app.route('/upload', methods=['POST'])
 def deepbreak():
     imageb64 = (request.get_json())['image']
-    prefix = 'data:image/webp;base64,'
-    cut = imageb64[len(prefix):]
-    im = Image.open(io.BytesIO(base64.b64decode(cut)))
+    imageb64 = imageb64.split(',')
+    imageb64 = imageb64[1]
+    print(len(imageb64))
+    im = Image.open(io.BytesIO(base64.b64decode(imageb64)))
     np_image = np.array(im)
     detected_faces = identifyFaces(np_image)
     new_image = process_image(np_image, detected_faces)
