@@ -52,7 +52,7 @@ def deepbreak():
 
 def invert_pixel_color(pixel):
     # Assuming the pixel is in RGB format
-    return 255 - pixel
+    return  50 - pixel
 
 # def identifyFaces(image):
 #     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -91,7 +91,7 @@ def process_image(image, faces):
         for i in range(y, y + h):
             for j in range(x, x + w):  # Modify to invert every pixel if desired
                 # Randomly decide whether to invert pixel or not
-                if random.random() < 0.005:
+                if random.random() < 0.0005:
                     processed_image[i, j] = invert_pixel_color(processed_image[i, j])
 
     return processed_image
